@@ -1,7 +1,11 @@
 import { Event, EventForm } from '../types';
 
 export function parseDateTime(date: string, time: string) {
-  return new Date(`${date}T${time}`);
+  const result = new Date(`${date}T${time}`);
+  if (isNaN(result.getTime())) {
+    return 'Invalid Date';
+  }
+  return result;
 }
 
 export function convertEventToDateRange({ date, startTime, endTime }: Event | EventForm) {
