@@ -34,19 +34,66 @@ describe('getDaysInMonth', () => {
 });
 
 describe('getWeekDates', () => {
-  it('주중의 날짜(수요일)에 대해 올바른 주의 날짜들을 반환한다', () => {});
+  it('주중의 날짜(수요일)에 대해 올바른 주의 날짜들을 반환한다', () => {
+    const testDate = new Date('2025-02-05');
+    const weekDates = getWeekDates(testDate);
 
-  it('주의 시작(월요일)에 대해 올바른 주의 날짜들을 반환한다', () => {});
+    expect(weekDates).toHaveLength(7);
 
-  it('주의 끝(일요일)에 대해 올바른 주의 날짜들을 반환한다', () => {});
+    weekDates.forEach((item, idx) => {
+      expect(item).toBeInstanceOf(Date);
+      // 2025-02-02 => 일요일
+      expect(weekDates[idx].toISOString().split('T')[0]).toBe(`2025-02-0${2 + idx}`);
+    });
+  });
 
-  it('연도를 넘어가는 주의 날짜를 정확히 처리한다 (연말)', () => {});
+  it('주의 시작(월요일)에 대해 올바른 주의 날짜들을 반환한다', () => {
+    const testDate = new Date('2025-02-04');
+    const weekDates = getWeekDates(testDate);
 
-  it('연도를 넘어가는 주의 날짜를 정확히 처리한다 (연초)', () => {});
+    expect(weekDates).toHaveLength(7);
 
-  it('윤년의 2월 29일을 포함한 주를 올바르게 처리한다', () => {});
+    weekDates.forEach((item, idx) => {
+      expect(item).toBeInstanceOf(Date);
+      // 2025-02-02 => 일요일
+      expect(weekDates[idx].toISOString().split('T')[0]).toBe(`2025-02-0${2 + idx}`);
+    });
+  });
 
-  it('월의 마지막 날짜를 포함한 주를 올바르게 처리한다', () => {});
+  it('주의 끝(일요일)에 대해 올바른 주의 날짜들을 반환한다', () => {
+    const testDate = new Date('2025-02-02');
+    const weekDates = getWeekDates(testDate);
+
+    expect(weekDates).toHaveLength(7);
+
+    weekDates.forEach((item, idx) => {
+      expect(item).toBeInstanceOf(Date);
+      // 2025-02-02 => 일요일
+      expect(weekDates[idx].toISOString().split('T')[0]).toBe(`2025-02-0${2 + idx}`);
+    });
+  });
+
+  it('연도를 넘어가는 주의 날짜를 정확히 처리한다 (연말)', () => {
+    const testDate = new Date('2024-12-31');
+    const weekDates = getWeekDates(testDate);
+    expect(weekDates[3].toISOString().split('T')[0]).toBe(`2025-01-01`);
+  });
+
+  it('연도를 넘어가는 주의 날짜를 정확히 처리한다 (연초)', () => {
+    const testDate = new Date('2025-01-01');
+    const weekDates = getWeekDates(testDate);
+    expect(weekDates[2].toISOString().split('T')[0]).toBe(`2024-12-31`);
+    expect(weekDates[4].toISOString().split('T')[0]).toBe(`2025-01-02`);
+  });
+
+  it('윤년의 2월 29일을 포함한 주를 올바르게 처리한다', () => {
+    const testDate = new Date('2024-02-29');
+    const weekDates = getWeekDates(testDate);
+    expect(weekDates[5].toISOString().split('T')[0]).toBe(`2024-03-01`);
+  });
+
+  //해당 테스트는 이미 앞에서 진행한 테스트 (연초, 연말) 했기 떄문에 skip한다. (불필요한 테스트)
+  it.skip('월의 마지막 날짜를 포함한 주를 올바르게 처리한다', () => {});
 });
 
 describe('getWeeksAtMonth', () => {
