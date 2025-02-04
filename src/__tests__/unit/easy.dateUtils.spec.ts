@@ -122,17 +122,85 @@ describe('getEventsForDay', () => {
 });
 
 describe('formatWeek', () => {
-  it('월의 중간 날짜에 대해 올바른 주 정보를 반환한다', () => {});
+  it('월의 중간 날짜에 대해 올바른 주 정보를 반환한다', () => {
+    const result = formatWeek(new Date('2025-02-16'));
+    expect(result).toBe('2025년 2월 3주');
+  });
 
-  it('월의 첫 주에 대해 올바른 주 정보를 반환한다', () => {});
+  it('월의 첫 주에 대해 올바른 주 정보를 반환한다', () => {
+    // 목요일을 기준으로 새로운 월이 결정됨. 2025-02-01 => 토요일 -> 1월 5주 라고 표시되는 것
 
-  it('월의 마지막 주에 대해 올바른 주 정보를 반환한다', () => {});
+    // 기준 일이 목요일 이후 일때,
+    const afterThu = formatWeek(new Date('2025-02-01'));
+    expect(afterThu).toBe('2025년 1월 5주');
 
-  it('연도가 바뀌는 주에 대해 올바른 주 정보를 반환한다', () => {});
+    // 기준일이 목요일 이전 일 떄,
+    const beforeThu = formatWeek(new Date('2025-04-01'));
+    expect(beforeThu).toBe('2025년 4월 1주');
 
-  it('윤년 2월의 마지막 주에 대해 올바른 주 정보를 반환한다', () => {});
+    // 기준일이 목요일 일 떄,
+    const thu = formatWeek(new Date('2025-05-01'));
+    expect(thu).toBe('2025년 5월 1주');
+  });
 
-  it('평년 2월의 마지막 주에 대해 올바른 주 정보를 반환한다', () => {});
+  it('월의 마지막 주에 대해 올바른 주 정보를 반환한다', () => {
+    // 목요일을 기준으로 새로운 월이 결정됨. 2025-02-01 => 토요일 -> 1월 5주 라고 표시되는 것
+
+    // 기준 일이 목요일 이후 일때,
+    const afterThu = formatWeek(new Date('2025-05-31'));
+    expect(afterThu).toBe('2025년 5월 5주');
+
+    // 기준일이 목요일 이전 일 떄,
+    const beforeThu = formatWeek(new Date('2025-04-30'));
+    expect(beforeThu).toBe('2025년 5월 1주');
+
+    // 기준일이 목요일 일 떄,
+    const thu = formatWeek(new Date('2024-10-31'));
+    expect(thu).toBe('2024년 10월 5주');
+  });
+
+  it('연도가 바뀌는 주에 대해 올바른 주 정보를 반환한다', () => {
+    // 목요일을 기준으로 새로운 월이 결정됨. 2025-02-01 => 토요일 -> 1월 5주 라고 표시되는 것
+    // 기준 일이 목요일 이후 일때,
+    const afterThu = formatWeek(new Date('2023-12-29'));
+    expect(afterThu).toBe('2023년 12월 4주');
+
+    // 기준일이 목요일 이전 일 떄,
+    const beforeThu = formatWeek(new Date('2023-12-28'));
+    expect(beforeThu).toBe('2023년 12월 4주');
+
+    // 기준일이 목요일 일 떄,
+    const thu = formatWeek(new Date('2023-12-27'));
+    expect(thu).toBe('2023년 12월 4주');
+  });
+
+  it('윤년 2월의 마지막 주에 대해 올바른 주 정보를 반환한다', () => {
+    // 기준 일이 목요일 이후 일때,
+    const afterThu = formatWeek(new Date('2024-02-29'));
+    expect(afterThu).toBe('2024년 2월 5주');
+
+    // 기준일이 목요일 이전 일 떄,
+    const beforeThu = formatWeek(new Date('2024-02-29'));
+    expect(beforeThu).toBe('2024년 2월 5주');
+
+    // 기준일이 목요일 일 떄,
+    const thu = formatWeek(new Date('2024-02-29'));
+    expect(thu).toBe('2024년 2월 5주');
+  });
+
+  it('평년 2월의 마지막 주에 대해 올바른 주 정보를 반환한다', () => {
+    // 기준 일이 목요일 이후 일때,
+    const afterThu = formatWeek(new Date('2023-02-24'));
+    expect(afterThu).toBe('2023년 2월 4주');
+
+    // 기준일이 목요일 이전 일 떄,
+    const beforeThu = formatWeek(new Date('2023-02-22'));
+    expect(beforeThu).toBe('2023년 2월 4주');
+
+    // 기준일이 목요일 일 떄,
+    const thu = formatWeek(new Date('2023-02-23'));
+    expect(thu).toBe('2023년 2월 4주');
+  });
 });
 
 describe('formatMonth', () => {
