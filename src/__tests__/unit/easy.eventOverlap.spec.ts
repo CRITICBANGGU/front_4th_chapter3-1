@@ -155,9 +155,13 @@ describe('convertEventToDateRange', () => {
 });
 
 describe('isOverlapping', () => {
-  it('두 이벤트가 겹치는 경우 true를 반환한다', () => {});
+  it('두 이벤트가 겹치는 경우 true를 반환한다', () => {
+    expect(isOverlapping(event[3], event[4])).toBe(true);
+  });
 
-  it('두 이벤트가 겹치지 않는 경우 false를 반환한다', () => {});
+  it('두 이벤트가 겹치지 않는 경우 false를 반환한다', () => {
+    expect(isOverlapping(event[1], event[4])).toBe(false);
+  });
 });
 
 describe('findOverlappingEvents', () => {
