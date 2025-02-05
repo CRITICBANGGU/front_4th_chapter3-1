@@ -165,7 +165,42 @@ describe('isOverlapping', () => {
 });
 
 describe('findOverlappingEvents', () => {
-  it('새 이벤트와 겹치는 모든 이벤트를 반환한다', () => {});
+  it('새 이벤트와 겹치는 모든 이벤트를 반환한다', () => {
+    expect(findOverlappingEvents(overEvent, event)).toEqual([
+      {
+        title: '출근',
+        date: '2025-02-07',
+        startTime: '09:00',
+        endTime: '18:00',
+        description: '출근ㅠ',
+        location: '여의도',
+        category: '업무',
+        repeat: {
+          type: 'daily',
+          interval: 5,
+        },
+        notificationTime: 10,
+        id: '4',
+      },
+      {
+        title: '출근',
+        date: '2025-02-07',
+        startTime: '09:00',
+        endTime: '18:00',
+        description: '출근ㅠ',
+        location: '여의도',
+        category: '업무',
+        repeat: {
+          type: 'daily',
+          interval: 5,
+        },
+        notificationTime: 10,
+        id: '5',
+      },
+    ]);
+  });
 
-  it('겹치는 이벤트가 없으면 빈 배열을 반환한다', () => {});
+  it('겹치는 이벤트가 없으면 빈 배열을 반환한다', () => {
+    expect(findOverlappingEvents(newEvent, event)).toEqual([]);
+  });
 });
